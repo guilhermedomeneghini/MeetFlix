@@ -1,5 +1,8 @@
 <div class="container flex flex-col items-center justify-center">
-  <form class="mt-20">
+  <form
+    [formGroup]="registerForm"
+    class="mt-20 flex items-center justify-center"
+  >
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 flex flex-col gap-6"
     >
@@ -11,8 +14,15 @@
             type="text"
             placeholder="Ex: João da Silva"
             class="input input-md"
+            formControlName="name"
+            name="name"
           />
         </label>
+        @if (registerForm.controls.name.errors?.['required'] &&
+        registerForm.controls.name.touched) {
+        <p class="text-red-400 pl-2 pt-2">O nome é obrigatório.</p>
+
+        }
       </div>
       <div class="content-register">
         <label class="floating-label">
@@ -21,8 +31,17 @@
             type="email"
             placeholder="Ex: joao.silva@mail.com"
             class="input input-md"
+            formControlName="email"
+            name="email"
           />
         </label>
+        @if (registerForm.controls.email.errors?.['required'] &&
+        registerForm.controls.email.touched) {
+        <p class="text-red-400 pl-2 pt-2">O email é obrigatório.</p>
+
+        } @else if (registerForm.controls.email.errors?.['email']) {
+        <p class="text-red-400 pl-2 pt-2">O email deve ser válido.</p>
+        }
       </div>
       <div class="content-register">
         <label class="floating-label">
@@ -31,10 +50,22 @@
             type="password"
             placeholder="********"
             class="input input-md"
+            formControlName="password"
+            name="password"
           />
         </label>
+        @if (registerForm.controls.password.errors?.['required'] &&
+        registerForm.controls.password.touched) {
+        <p class="text-red-400 pl-2 pt-2">A senha é obrigatória.</p>
+        } @else if (registerForm.controls.password.errors?.['minlength']) {
+        <p class="text-red-400 pl-2 pt-2">
+          A senha deve ter pelo menos 6 caracteres.
+        </p>
+        }
       </div>
-      <button class="btn btn-primary">Registra-se</button>
+      <button [disabled]="registerForm.invalid" class="btn btn-primary">
+        Registra-se
+      </button>
     </fieldset>
   </form>
 </div>
