@@ -1,1 +1,40 @@
-<p>register-page works!</p>
+<div class="container flex flex-col items-center justify-center">
+  <form class="mt-20">
+    <fieldset
+      class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 flex flex-col gap-6"
+    >
+      <legend class="fieldset-legend">Registrar</legend>
+      <div class="content-register">
+        <label class="floating-label">
+          <span>Nome</span>
+          <input
+            type="text"
+            placeholder="Ex: João da Silva"
+            class="input input-md"
+          />
+        </label>
+      </div>
+      <div class="content-register">
+        <label class="floating-label">
+          <span>Email</span>
+          <input
+            type="email"
+            placeholder="Ex: joao.silva@mail.com"
+            class="input input-md"
+          />
+        </label>
+      </div>
+      <div class="content-register">
+        <label class="floating-label">
+          <span>Senha</span>
+          <input
+            type="password"
+            placeholder="********"
+            class="input input-md"
+          />
+        </label>
+      </div>
+      <button class="btn btn-primary">Registra-se</button>
+    </fieldset>
+  </form>
+</div>
