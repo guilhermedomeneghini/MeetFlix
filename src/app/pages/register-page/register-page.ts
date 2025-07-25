@@ -7,15 +7,17 @@ import {
 } from '@angular/forms';
 import { MessageSuccess } from '../../shared/components/message-success/message-success';
 import { RegisterUser } from './service/register-user';
+import { MessageError } from '../../shared/components/message-error/message-error';
 
 @Component({
   selector: 'app-register-page',
-  imports: [ReactiveFormsModule, MessageSuccess],
+  imports: [ReactiveFormsModule, MessageSuccess, MessageError],
   templateUrl: './register-page.html',
   styleUrl: './register-page.css',
 })
 export class RegisterPage {
   isSuccess = signal(false);
+  isError = signal(false);
 
   private _registerUserService = inject(RegisterUser);
 
@@ -40,6 +42,9 @@ export class RegisterPage {
       next: () => {
         this.isSuccess.set(true);
         this.registerForm.reset();
+      },
+      error: () => {
+        this.isError.set(true);
       },
     });
   }

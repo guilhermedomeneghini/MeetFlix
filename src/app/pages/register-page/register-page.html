@@ -4,6 +4,11 @@
     class="mt-4"
     [messageSuccess]="'Usuário registrado com sucesso!'"
   ></app-message-success>
+  } @if (isError()) {
+  <app-message-error
+    class="mt-4"
+    [messageError]="'Email já cadastrado ou erro no registro.'"
+  ></app-message-error>
   }
 
   <form
