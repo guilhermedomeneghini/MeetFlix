@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,6 +8,7 @@ import {
 import { MessageSuccess } from '../../shared/components/message-success/message-success';
 import { RegisterUser } from './service/register-user';
 import { MessageError } from '../../shared/components/message-error/message-error';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register-page',
@@ -20,6 +21,7 @@ export class RegisterPage {
   isError = signal(false);
 
   private _registerUserService = inject(RegisterUser);
+  private _destroyRef = inject(DestroyRef);
 
   registerForm = new FormGroup({
     nome: new FormControl('', {
@@ -38,14 +40,17 @@ export class RegisterPage {
 
   submit() {
     const registerUser = this.registerForm.getRawValue();
-    this._registerUserService.post(registerUser).subscribe({
-      next: () => {
-        this.isSuccess.set(true);
-        this.registerForm.reset();
-      },
-      error: () => {
-        this.isError.set(true);
-      },
-    });
+    this._registerUserService
+      .post(registerUser)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: () => {
+          this.isSuccess.set(true);
+          this.registerForm.reset();
+        },
+        error: () => {
+          this.isError.set(true);
+        },
+      });
   }
 }

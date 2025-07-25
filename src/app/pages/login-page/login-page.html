@@ -1,1 +1,65 @@
-<p>login-page works!</p>
+<div class="container flex flex-col items-center justify-center">
+  @if (isError()) {
+  <app-message-error
+    class="mt-4"
+    [messageError]="'Email ou senha inválidos.'"
+  ></app-message-error>
+  }
+  <form
+    (ngSubmit)="login()"
+    [formGroup]="registerForm"
+    class="mt-6 flex items-center justify-center"
+  >
+    <fieldset
+      class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 flex flex-col gap-6"
+    >
+      <legend class="fieldset-legend">Login</legend>
+      <div class="content-register">
+        <label class="floating-label">
+          <span>Email</span>
+          <input
+            type="email"
+            placeholder="Ex: joao.silva@mail.com"
+            class="input input-md"
+            formControlName="email"
+            name="email"
+          />
+        </label>
+        @if (registerForm.controls.email.errors?.['required'] &&
+        registerForm.controls.email.touched) {
+        <p class="text-red-400 pl-2 pt-2">O email é obrigatório.</p>
+
+        } @else if (registerForm.controls.email.errors?.['email']) {
+        <p class="text-red-400 pl-2 pt-2">O email deve ser válido.</p>
+        }
+      </div>
+      <div class="content-register">
+        <label class="floating-label">
+          <span>Senha</span>
+          <input
+            type="password"
+            placeholder="********"
+            class="input input-md"
+            formControlName="senha"
+            name="senha"
+          />
+        </label>
+        @if (registerForm.controls.senha.errors?.['required'] &&
+        registerForm.controls.senha.touched) {
+        <p class="text-red-400 pl-2 pt-2">A senha é obrigatória.</p>
+        } @else if (registerForm.controls.senha.errors?.['minlength']) {
+        <p class="text-red-400 pl-2 pt-2">
+          A senha deve ter pelo menos 6 caracteres.
+        </p>
+        }
+      </div>
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid"
+        class="btn btn-primary"
+      >
+        Logar
+      </button>
+    </fieldset>
+  </form>
+</div>
