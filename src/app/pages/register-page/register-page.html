@@ -1,13 +1,15 @@
 <div class="container flex flex-col items-center justify-center">
   @if (isSuccess()) {
   <app-message-success
+    class="mt-4"
     [messageSuccess]="'Usuário registrado com sucesso!'"
   ></app-message-success>
   }
+
   <form
     (ngSubmit)="submit()"
     [formGroup]="registerForm"
-    class="mt-20 flex items-center justify-center"
+    class="mt-6 flex items-center justify-center"
   >
     <fieldset
       class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 flex flex-col gap-6"
