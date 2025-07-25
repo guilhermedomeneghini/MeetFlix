@@ -1,5 +1,11 @@
 <div class="container flex flex-col items-center justify-center">
+  @if (isSuccess()) {
+  <app-message-success
+    [messageSuccess]="'Usuário registrado com sucesso!'"
+  ></app-message-success>
+  }
   <form
+    (ngSubmit)="submit()"
     [formGroup]="registerForm"
     class="mt-20 flex items-center justify-center"
   >
@@ -14,12 +20,12 @@
             type="text"
             placeholder="Ex: João da Silva"
             class="input input-md"
-            formControlName="name"
-            name="name"
+            formControlName="nome"
+            name="nome"
           />
         </label>
-        @if (registerForm.controls.name.errors?.['required'] &&
-        registerForm.controls.name.touched) {
+        @if (registerForm.controls.nome.errors?.['required'] &&
+        registerForm.controls.nome.touched) {
         <p class="text-red-400 pl-2 pt-2">O nome é obrigatório.</p>
 
         }
@@ -50,20 +56,24 @@
             type="password"
             placeholder="********"
             class="input input-md"
-            formControlName="password"
-            name="password"
+            formControlName="senha"
+            name="senha"
           />
         </label>
-        @if (registerForm.controls.password.errors?.['required'] &&
-        registerForm.controls.password.touched) {
+        @if (registerForm.controls.senha.errors?.['required'] &&
+        registerForm.controls.senha.touched) {
         <p class="text-red-400 pl-2 pt-2">A senha é obrigatória.</p>
-        } @else if (registerForm.controls.password.errors?.['minlength']) {
+        } @else if (registerForm.controls.senha.errors?.['minlength']) {
         <p class="text-red-400 pl-2 pt-2">
           A senha deve ter pelo menos 6 caracteres.
         </p>
         }
       </div>
-      <button [disabled]="registerForm.invalid" class="btn btn-primary">
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid"
+        class="btn btn-primary"
+      >
         Registra-se
       </button>
     </fieldset>

@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MessageSuccess } from '../../shared/components/message-success/message-success';
+import { RegisterUser } from './service/register-user';
 
 @Component({
   selector: 'app-register-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MessageSuccess],
   templateUrl: './register-page.html',
   styleUrl: './register-page.css',
 })
 export class RegisterPage {
+  isSuccess = signal(false);
+
+  private _registerUserService = inject(RegisterUser);
+
   registerForm = new FormGroup({
-    name: new FormControl('', {
+    nome: new FormControl('', {
       validators: [Validators.required],
       nonNullable: true,
     }),
@@ -22,17 +28,19 @@ export class RegisterPage {
       validators: [Validators.required, Validators.email],
       nonNullable: true,
     }),
-    password: new FormControl('', {
+    senha: new FormControl('', {
       validators: [Validators.required, Validators.minLength(6)],
       nonNullable: true,
     }),
   });
 
-  submitForm() {
-    if (this.registerForm.valid) {
-      console.log('Form Submitted', this.registerForm.value);
-    } else {
-      console.log('Form is invalid');
-    }
+  submit() {
+    const registerUser = this.registerForm.getRawValue();
+    this._registerUserService.post(registerUser).subscribe({
+      next: () => {
+        this.isSuccess.set(true);
+        this.registerForm.reset();
+      },
+    });
   }
 }
