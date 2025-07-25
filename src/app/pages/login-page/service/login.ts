@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { UserLogin } from '../interfaces/login.interface';
+import { LoginResponse, UserLogin } from '../interfaces/login.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +13,14 @@ export class Login {
 
   post(userLogin: UserLogin) {
     return this._httpClient
-      .post<{ access_token: string }>(`${this.ENDPOINT}auth/login`, userLogin, {
+      .post<LoginResponse>(`${this.ENDPOINT}auth/login`, userLogin, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .pipe(
         catchError((error) => {
-          if (error.status === 401) {
+          if (error.status === 404) {
             return throwError(() => new Error('Email ou senha inválidos.'));
           }
           return throwError(() => error);

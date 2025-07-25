@@ -1,4 +1,8 @@
 export interface UserLogin {
   email: string;
-  password: string;
+  senha: string;
+}
+
+export interface LoginResponse {
+  token: string;
 }
