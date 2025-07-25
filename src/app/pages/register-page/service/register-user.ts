@@ -15,7 +15,7 @@ export class RegisterUser {
       .post<RegisterUser>(`${this.ENDPOINT}auth/register`, registerUser)
       .pipe(
         catchError((error) => {
-          if (error.status === 400) {
+          if (error.status === 500) {
             return throwError(() => new Error('Usuário já cadastrado!'));
           }
           return throwError(() => error);
