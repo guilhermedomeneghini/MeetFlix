@@ -1,0 +1,8 @@
+span {
+  font-family: "Rammetto One", cursive;
+  text-align: center;
+}
+
+hr {
+  border-color: var(--color-neutral);
+}
